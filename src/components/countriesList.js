@@ -1,30 +1,16 @@
 import React, { useEffect } from "react";
-
-
+import "./countriesList.css"
 export default function Countries(){
     const [list,setlist] = React.useState([])
     const [allCountrie,setAllCountrie] = React.useState([])
-    /*const [asiaList,setAsialist] = React.useState([])
-    const [europeList,setEuropelsit] = React.useState([])
-    const [africaList,setAfricaList] = React.useState([])
-    const [americaList,setAmericaList] = react.useState([])
-    const*/
-    const [countries,setCountries] = React.useState(9)
+    const [countries,setCountries] = React.useState(0)
     const [region,setRegion]  = React.useState("")
-   /* const ,fetchData = async ()  => {
-        const dataJson = await fetch("https://restcountries.com/v3.1/all")
-        const data = await dataJson.json()
-        console.log(data)
-        return data
-    }
-    const data = fetchData()
-    console.log(data.PromiseResult) */
     useEffect(()=>{
         const fetchData = async ()  => {
             const dataJson = await fetch("https://restcountries.com/v3.1/all")
             const data = await dataJson.json()
             setAllCountrie(data)
-            console.log(allCountrie)
+            console.log(data)
             if(region===""){
                 for(let i=countries;i<countries+9 && i<data.length;i++){
                     setlist((prev)=>[...prev,data[i]])
@@ -38,79 +24,62 @@ export default function Countries(){
                 }
             }
             fetchData()
-            console.log(list)
     },[countries,region])
-            /*if(regio===""){
-                for(let i=countries;i<countries+9;i++){
-                    setlsit((prev)=>[...prev,data[i]])
-                   
-                }
-                /*let i=0
-                while(list.length<countries){
-                    setlsit((prev)=>[...prev,data[i]])
-                    
-                    
-                }
-            }*/
-               /* let j=0
-                let i=countries
-                 while(j<9){
-                    console.log(j)
-                    if(data[i].region===regio){
-                        console.log(data[i])
-                        await setlist((prev)=>[...prev,data[i]])
-                        console.log(list)
-                        j++
-                        
-                    }
-                    else{
-                        console.log(data[i])
-                    }
-                    i++
-                
-            }*/
-        function serschCountrie(countrie){
-            for (let i=0; i<list.length ;i++){
-                if(countrie===list[i].name.common){
-                    setlist(countrie)
-                }
+    function serschCountrie(countrie){
+        setlist([])
+        setCountries(0)
+        for (let i=0; i<list.length ;i++){
+            if(countrie===list[i].name.common){
+                setlist(countrie)
             }
-
         }
-        function showMore(){
-            setCountries((prev)=>prev+9)
-            console.log(countries)
-        }
-        function changeRegion(e){
-            setRegion(e)
-            setlist([])
-            setCountries(9)
-
-        }
+    }
+    function showMore(){
+        setCountries((prev)=>prev+9)
+    }
+    function changeRegion(e){
+        setRegion(e)
+        setlist([])
+        setCountries(0)
+    }
+    function chooseCountrie(e){
+        for(let i=0;i<allCountrie.length;i++){
+            if(allCountrie[i].name.common===e){
+                setlist([allCountrie[i]])
+            }
+        }            
+    }
     return(
-        <div>
-            <div>
-            <input list="countries"/>
-                <datalist   id="countires">
-                    {list.map((countrie)=> <option value="Wafasf"/> )}
-                </datalist>
-            <input list="region"  onChange={()=>{changeRegion(event.target.value)}}/>
-                <datalist id="region">
-                    <option value="Asia"/>
-                    <option value="Africa"/>
-                    <option value="Americas"/>
-                    <option value="Oceania"/>
-                    <option value="Europe"/>
-                </datalist>
+        <div className="main">
+            <div className="input">
+                <input list="countries" className="list" onChange={()=>chooseCountrie(event.target.value)}/>
+                    <datalist   id="countries">
+                        {allCountrie.map((countrie)=>  <option value={countrie.name.common}/> )}
+                    </datalist>        
+                <input list="region" className="list" onChange={()=>{changeRegion(event.target.value)}}/>
+                    <datalist id="region">
+                        <option value="Asia"/>
+                        <option value="Africa"/>
+                        <option value="Americas"/>
+                        <option value="Oceania"/>
+                        <option value="Europe"/>
+                    </datalist>
             </div>
-            <div >
+            <div className="country-list">
                 {
-                    list.map((item)=><div><div></div><span>{item.altSpellings[0]}</span><span>{item.population}</span><span>{item.region
-                    }</span><span>{item.capital}</span></div>)
+                list.map((item)=>
+                <div className="country">
+                    <div style={{backgroundImage: `url(${item.flags.png})`}} className="flag"></div>
+                    <span className="name" style={{fontWeight:800}}>{item.name.common}</span>
+                    <span className="population">population:<span style={{fontWeight:300}}>{item.population}</span></span>
+                    <span>region:<span style={{fontWeight:300}}>{item.region}</span></span>
+                    <span className="capital">capital:<span style={{fontWeight:300}}>{item.capital}</span>{item.capital}</span>
+                </div>
+                )
                 }
-                <button onClick={showMore}>more country</button>
             </div>
+            <button onClick={showMore} className="btn">more country</button>
+
         </div>
-        
     )
 }
