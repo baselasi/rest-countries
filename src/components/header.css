@@ -8,4 +8,24 @@
   font-weight: 500;
   font-size: larger;
   align-items: center;
+  transition: 1s;
+}
+.header-right{
+  display: flex;
+  width: 20%;
+  height: 100%;
+  align-items: center;
+  justify-content: flex-end;
+}
+.dark-mode{
+  background-image: url(/public/img//moon.png);
+  width: 50%;
+  height: 100%;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.darck{
+  background-color: black;
+  color: white;
 }
