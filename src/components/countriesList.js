@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import "./countriesList.css"
-export default function Countries(){
+export default function Countries(props){
     const [list,setlist] = React.useState([])
     const [allCountrie,setAllCountrie] = React.useState([])
     const [countries,setCountries] = React.useState(0)
@@ -36,6 +36,7 @@ export default function Countries(){
     }
     function showMore(){
         setCountries((prev)=>prev+9)
+        console.log(props.darckMode)
     }
     function changeRegion(e){
         setRegion(e)
@@ -50,7 +51,7 @@ export default function Countries(){
         }            
     }
     return(
-        <div className="main">
+        <div className={props.darckMode ? "main darck" : "main"}>
             <div className="input">
                 <input list="countries" className="list" onChange={()=>chooseCountrie(event.target.value)}/>
                     <datalist   id="countries">
@@ -73,12 +74,14 @@ export default function Countries(){
                     <span className="name" style={{fontWeight:800}}>{item.name.common}</span>
                     <span className="population">population:<span style={{fontWeight:300}}>{item.population}</span></span>
                     <span>region:<span style={{fontWeight:300}}>{item.region}</span></span>
-                    <span className="capital">capital:<span style={{fontWeight:300}}>{item.capital}</span>{item.capital}</span>
+                    <span className="capital">capital:<span style={{fontWeight:300}}>{item.capital}</span></span>
                 </div>
                 )
                 }
             </div>
-            <button onClick={showMore} className="btn">more country</button>
+            <div className={props.darckMode ? "btn-continer darck" : "btn-continer"}>
+            <button onClick={showMore} className="btn" >more country</button>
+            </div>
 
         </div>
     )
