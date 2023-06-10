@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import "./countriesList.css"
+import { useNavigate } from "react-router-dom";
 export default function Countries(props){
     const [list,setlist] = React.useState([])
     const [allCountrie,setAllCountrie] = React.useState([])
@@ -25,6 +26,12 @@ export default function Countries(props){
             }
             fetchData()
     },[countries,region])
+    const navigate = useNavigate()
+    function routeChange(object){
+        navigate('/countrie')
+        props.Countrie(object)
+        props.Countries(allCountrie)
+    }
     function serschCountrie(countrie){
         setlist([])
         setCountries(0)
@@ -68,15 +75,15 @@ export default function Countries(props){
             </div>
             <div className="country-list">
                 {
-                list.map((item)=>
-                <div className="country">
-                    <div style={{backgroundImage: `url(${item.flags.png})`}} className="flag"></div>
-                    <span className="name" style={{fontWeight:800}}>{item.name.common}</span>
-                    <span className="population">population:<span style={{fontWeight:300}}>{item.population}</span></span>
-                    <span>region:<span style={{fontWeight:300}}>{item.region}</span></span>
-                    <span className="capital">capital:<span style={{fontWeight:300}}>{item.capital}</span></span>
-                </div>
-                )
+                    list.map((item)=>
+                    <div className="country" onClick={()=>routeChange(item)}>
+                        <div style={{backgroundImage: `url(${item.flags.png})`}} className="flag"></div>
+                        <span className="name" style={{fontWeight:800}}>{item.name.common}</span>
+                        <span className="population">population:<span style={{fontWeight:300}}>{item.population}</span></span>
+                        <span>region:<span style={{fontWeight:300}}>{item.region}</span></span>
+                        <span className="capital">capital:<span style={{fontWeight:300}}>{item.capital}</span></span>
+                    </div>
+                    )
                 }
             </div>
             <div className={props.darckMode ? "btn-continer darck" : "btn-continer"}>
