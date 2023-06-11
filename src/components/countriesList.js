@@ -6,12 +6,12 @@ export default function Countries(props){
     const [allCountrie,setAllCountrie] = React.useState([])
     const [countries,setCountries] = React.useState(0)
     const [region,setRegion]  = React.useState("")
+    const [countrie,setCountrie] = React.useState("")
     useEffect(()=>{
         const fetchData = async ()  => {
             const dataJson = await fetch("https://restcountries.com/v3.1/all")
             const data = await dataJson.json()
             setAllCountrie(data)
-            console.log(data)
             if(region===""){
                 for(let i=countries;i<countries+9 && i<data.length;i++){
                     setlist((prev)=>[...prev,data[i]])
@@ -21,6 +21,7 @@ export default function Countries(props){
                     const countriesList = data.filter((contrie)=>contrie.region == region)
                     for(let i=countries;i<countries+9 && i<countriesList.length;i++){
                         setlist((prev)=>[...prev,countriesList[i]])
+                        console.log(list)
                     }
                 }
             }
@@ -31,19 +32,11 @@ export default function Countries(props){
         navigate('/countrie')
         props.Countrie(object)
         props.Countries(allCountrie)
-    }
-    function serschCountrie(countrie){
-        setlist([])
-        setCountries(0)
-        for (let i=0; i<list.length ;i++){
-            if(countrie===list[i].name.common){
-                setlist(countrie)
-            }
-        }
+        setCountrie(object)
+    
     }
     function showMore(){
         setCountries((prev)=>prev+9)
-        console.log(props.darckMode)
     }
     function changeRegion(e){
         setRegion(e)
