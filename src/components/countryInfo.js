@@ -3,20 +3,20 @@ import { useNavigate } from "react-router-dom";
 import './countryInfo.css'
 
 export default function Countrie(props){
-    const [countrie,setCountrie] = React.useState(props.countrie)
-    const [borderCountrie,setBorderCountries] = React.useState(props.borderCountrie)
-    const currenciesKey = (()=> {if (countrie.currencies!==undefined){return Object.keys(countrie.currencies)}})()
-    console.log(currenciesKey)
-    const nativenamekey = (()=> {if (countrie.name.nativeName){return Object.keys(countrie.name.nativeName)}})() 
+    const [countrie,setCountrie] = React.useState(props.countrie)  //a state the contiene the county object that have been passed from contries component throught App component
+    const [borderCountrie,setBorderCountries] = React.useState(props.borderCountrie) // a state that contiene all border's counrty of country in the first state
+    const currenciesKey = (()=> {if (countrie.currencies!==undefined){return Object.keys(countrie.currencies)}})() //the if condtion is there to prevent erroe in case countire.currencies dont exist
+    const nativenamekey = (()=> {if (countrie.name.nativeName){return Object.keys(countrie.name.nativeName)}})() //tranfer nativanme into array so you can navigate using index insted of propeties name
     const languages = (()=> {if (countrie.languages){return Object.values(countrie.languages)}})() 
-    const tld = (()=> {if (countrie.tld){return Object.values(countrie.tld)}})() 
+    const tld = (()=> {if (countrie.tld){return Object.values(countrie.tld)}})()  //transfer countrie.tld's values into array so can naviagte throught it
     useEffect(()=>{
-        setBorderCountries(props.borderCountrie)
+        setBorderCountries(props.borderCountrie) //useEffect so you dont have infinte rerender
     },[props.borderCountrie])
     function handelClick(c){
         setCountrie(c)
-        props.changeCountry(c)
+        props.changeCountry(c) //pass the choosen country object to App coponent so you can find the border countrys
     }
+    console.log(countrie)
     const navigate = useNavigate()
     function goBack(){
         navigate('/')
